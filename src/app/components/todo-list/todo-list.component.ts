@@ -19,35 +19,16 @@ export class TodoListComponent implements OnInit {
     this.getAllTodo();
   }
 
+  reloadAllEmployees() {
+    this.getAllTodo();
+  }
+
   // Fetch all Todos.
   getAllTodo() {
     this.todoService.getAllTodo().subscribe((data) => {
       this.Todo = data;
     });
   }
-
-
-  // Create Todo
-createTodo(data): Observable<any> {
-  // let url = `${this.baseUrl}/createEmployee`;
-  return this.http.post(`${this.baseUrl}/createTodo`, data)
-    .pipe(
-      catchError(this.errorMgmt)
-    );
-}
-
-// Get Todo
-getTodo(id): Observable<any> {
-  console.log('getTodo # id => ', id);
-  // tslint:disable-next-line:prefer-const
-  let url = `${this.baseUrl}/getTodoById/${id}`;
-  return this.http.get(url, {headers: this.headers}).pipe(
-    map((res: Response) => {
-      return res || {};
-    }),
-    catchError(this.errorMgmt)
-  );
-}
 
 // Update Todo
 updateTodo(id, data): Observable<any> {
@@ -59,12 +40,16 @@ updateTodo(id, data): Observable<any> {
 }
 
 // Delete Todo
-deleteTodo(id): Observable<any> {
-  // tslint:disable-next-line:prefer-const
-  let url = `${this.baseUrl}/deleteTodo/${id}`;
-  return this.http.delete(url, { headers: this.headers }).pipe(
-    catchError(this.errorMgmt)
-  );
+deleteTodo(todo, index){
+  if (window.confirm('Are you sure to delete the task?')) {
+    this.todoService.deleteTodo(todo.id).subscribe((data) => {
+      this.Todo.splice(index, 1);
+      // console.log('removeTodo...', data);
+      this.reloadAllEmployees();
+    },
+    error => console.log(error));
+
+}
 }
 
 // Error handling
