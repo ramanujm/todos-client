@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { throwError } from 'rxjs';
 import { TodoService } from 'src/app/service/todo.service';
+import { MatDialogConfig, MatDialog } from '@angular/material';
+import { Todo } from 'src/app/core/todo';
+import { EditTodoComponent } from '../edit-todo/edit-todo.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -13,7 +15,7 @@ export class TodoListComponent implements OnInit {
 
   Todo: any = [];
 
-  constructor(private http: HttpClient, private todoService: TodoService) { }
+  constructor(public dialog: MatDialog, private http: HttpClient, private todoService: TodoService) { }
 
   ngOnInit() {
     this.reloadAllTodos();
@@ -30,13 +32,23 @@ export class TodoListComponent implements OnInit {
     });
   }
 
-// Update Todo
-updateTodo(id, data) {
-  // tslint:disable-next-line:prefer-const
-  let url = `${this.baseUrl}/update/${id}`;
-  return this.http.put(url, data, { headers: this.headers }).pipe(
-    catchError(this.errorMgmt)
-  );
+ // open the edit dialog
+ openEditDialog(_id): void {
+  this.todoService.getTodo(_id)
+      .subscribe(
+        (resp: Todo) => {
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.width = '500px';
+          dialogConfig.data = resp;
+          const dialogRef = this.dialog.open(EditTodoComponent, dialogConfig);
+
+          dialogRef.afterClosed().subscribe(result => {
+            console.log('The dialog was closed');
+          });
+        },
+        (error: any) => console.log(error),
+        () => console.log('complete')
+      );
 }
 
 // Delete Todo
