@@ -16,10 +16,10 @@ export class TodoListComponent implements OnInit {
   constructor(private http: HttpClient, private todoService: TodoService) { }
 
   ngOnInit() {
-    this.getAllTodo();
+    this.reloadAllTodos();
   }
 
-  reloadAllEmployees() {
+  reloadAllTodos() {
     this.getAllTodo();
   }
 
@@ -40,7 +40,7 @@ updateTodo(id, data): Observable<any> {
 }
 
 // Delete Todo
-deleteTodo(todo, index){
+deleteTodo(todo, index) {
   if (window.confirm('Are you sure to delete the task?')) {
     this.todoService.deleteTodo(todo.id).subscribe((data) => {
       this.Todo.splice(index, 1);
