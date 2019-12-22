@@ -31,7 +31,7 @@ export class TodoListComponent implements OnInit {
   }
 
 // Update Todo
-updateTodo(id, data): Observable<any> {
+updateTodo(id, data) {
   // tslint:disable-next-line:prefer-const
   let url = `${this.baseUrl}/update/${id}`;
   return this.http.put(url, data, { headers: this.headers }).pipe(
@@ -45,7 +45,7 @@ deleteTodo(todo, index) {
     this.todoService.deleteTodo(todo.id).subscribe((data) => {
       this.Todo.splice(index, 1);
       // console.log('removeTodo...', data);
-      this.reloadAllEmployees();
+      this.reloadAllTodos();
     },
     error => console.log(error));
 
