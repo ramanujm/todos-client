@@ -64,6 +64,15 @@ deleteTodo(todo, index) {
 }
 }
 
+// Toggle todo complete
+toggleTodoComplete(todo: Todo) {
+  // tslint:disable-next-line:prefer-const
+  let updatedTodo = this.todoService.updateTodo(todo.id, {
+    complete: !todo.complete
+  });
+  return updatedTodo;
+}
+
 // Error handling
  errorMgmt(error: HttpErrorResponse) {
   let errorMessage = '';

@@ -1,3 +1,10 @@
-<p>
-  edit-todo works!
-</p>
+<h2 mat-dialog-title>Edit todo</h2>
+<mat-dialog-content>
+    <mat-form-field class="todo-full-width">
+        <input matInput [(ngModel)]="data.todo" #data="ngModel">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onUpdate(data.todo)">Save</button>
+</mat-dialog-actions>

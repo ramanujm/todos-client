@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { TodoService } from 'src/app/service/todo.service';
+import { Todo } from 'src/app/core/todo';
 
 @Component({
   selector: 'app-edit-todo',
@@ -7,9 +10,29 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditTodoComponent implements OnInit {
 
-  constructor() { }
+  constructor(public dialogRef: MatDialogRef<EditTodoComponent>,
+    @Inject(MAT_DIALOG_DATA) public todoData: Todo,
+    private myData: TodoService) { }
 
   ngOnInit() {
+  }
+
+  onCancel(): void {
+    this.dialogRef.close();
+  }
+
+
+  onUpdate(formData: any) {
+    // tslint:disable-next-line:prefer-const
+    let editedTodo: any = { _id: formData._id, title: formData.title};
+    this.myData.updateTodo(formData.id, editedTodo)
+      .subscribe(
+        (data: Todo) => {
+          return location.reload();
+        },
+        (error) => console.log(error)
+      );
+    this.dialogRef.close();
   }
 
 }

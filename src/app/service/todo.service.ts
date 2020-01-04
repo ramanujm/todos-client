@@ -8,7 +8,7 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class TodoService {
   // tslint:disable-next-line:no-inferrable-types
-  baseUrl: string = 'http://localhost:8080/';
+  baseUrl: string = 'http://localhost:8080/todo';
 headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }
