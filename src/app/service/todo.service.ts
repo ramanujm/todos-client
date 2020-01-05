@@ -8,14 +8,15 @@ import { catchError, map } from 'rxjs/operators';
 })
 export class TodoService {
   // tslint:disable-next-line:no-inferrable-types
-  baseUrl: string = 'http://localhost:8080/todo';
+  baseUrl: string = 'http://localhost:8080/todos';
 headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient) { }
 
   // Fetch all Todos.
   getAllTodo() {
-    return this.http.get(`${this.baseUrl}/getTodosList`);
+    return this.http.get(`${this.baseUrl}/getTodosList`)
+      .pipe(catchError(this.errorMgmt));
   }
 
 
