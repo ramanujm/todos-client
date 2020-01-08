@@ -5,16 +5,16 @@
     <h3 mat-subheader>Today</h3>
     <mat-list-item *ngFor="let todo of Todo">
         <mat-icon mat-list-icon>watch_later</mat-icon>
-        <h4 mat-line>{{todo.id}}</h4>
+        <h4 mat-line hidden>{{todo.id}}</h4>
         <input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">
         <p mat-line> {{todo.title}} </p>
-        <span style="position:relative; right: 35x"> 
+        <span style="position:relative; right: 15x">
             <a href="#" (click)="openEditDialog(todo.id)">
-                <mat-icon mat-list-icon>Edit</mat-icon>
-            </a>   
+                <mat-icon mat-list-icon>edit</mat-icon>
+            </a>
             <a href="#" (click)="deleteItem(todo.id)">
             <mat-icon mat-list-icon>delete</mat-icon>
-         </a> 
+         </a>
       </span>
         <mat-divider></mat-divider>
     </mat-list-item>

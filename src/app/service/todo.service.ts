@@ -15,14 +15,18 @@ headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   // Fetch all Todos.
   getAllTodo() {
-    return this.http.get(`${this.baseUrl}/getTodosList`)
+    return this.http.get(`${this.baseUrl}/getAllTodos`)
       .pipe(catchError(this.errorMgmt));
   }
 
 
   // Create Todo
 createTodo(data): Observable<any> {
-  return this.http.post(`${this.baseUrl}/createTodo`, data)
+  return this.http.post(`${this.baseUrl}/createTodo`, data,{
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
     .pipe(
       catchError(this.errorMgmt)
     );
@@ -44,7 +48,7 @@ getTodo(id): Observable<any> {
 // Update Todo
 updateTodo(id, data): Observable<any> {
   // tslint:disable-next-line:prefer-const
-  let url = `${this.baseUrl}/update/${id}`;
+  let url = `${this.baseUrl}/updateTodo/${id}`;
   return this.http.put(url, data, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   );

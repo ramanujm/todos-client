@@ -66,6 +66,7 @@ deleteTodo(todo, index) {
 
 // Toggle todo complete
 toggleTodoComplete(todo: Todo) {
+  console.log('I am here', todo.id);
   // tslint:disable-next-line:prefer-const
   let updatedTodo = this.todoService.updateTodo(todo.id, {
     complete: !todo.complete
