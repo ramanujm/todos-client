@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class ToolbarComponent implements OnInit {
 
   constructor() { }
-  title = 'TODO-Client';
+  title = 'TODOs';
 
   ngOnInit() {
   }

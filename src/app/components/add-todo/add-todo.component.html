@@ -1,8 +1,8 @@
 <h2 mat-dialog-title>Add new todo</h2>
-{{data.todo}}
 <mat-dialog-content>
     <mat-form-field class="todo-full-width">
-        <input matInput placeholder="new todo" [(ngModel)]="todo.title" #data="ngModel">
+        <input matInput placeholder="What needs to be done?" [(ngModel)]="todo.title" [formControl]= "addTodoControl" required>
+        <mat-error *ngIf="addTodoControl.hasError('invalid')">This is required field</mat-error>
     </mat-form-field>
 </mat-dialog-content>
 <mat-dialog-actions>

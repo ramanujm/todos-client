@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { Todo } from '../core/todo';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,7 @@ headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   // Create Todo
 createTodo(data): Observable<any> {
-  return this.http.post(`${this.baseUrl}/createTodo`, data,{
+  return this.http.post(`${this.baseUrl}/createTodo`, data, {
     headers: {
       'Content-Type': 'application/json'
     }
@@ -34,7 +35,6 @@ createTodo(data): Observable<any> {
 
 // Get Todo
 getTodo(id): Observable<any> {
-  console.log('getTodo # id => ', id);
   // tslint:disable-next-line:prefer-const
   let url = `${this.baseUrl}/getTodoById/${id}`;
   return this.http.get(url, {headers: this.headers}).pipe(
@@ -46,10 +46,10 @@ getTodo(id): Observable<any> {
 }
 
 // Update Todo
-updateTodo(id, data): Observable<any> {
+updateTodo(todo: Todo): Observable<any> {
   // tslint:disable-next-line:prefer-const
-  let url = `${this.baseUrl}/updateTodo/${id}`;
-  return this.http.put(url, data, { headers: this.headers }).pipe(
+  let url = `${this.baseUrl}/updateTodo/${todo.id}`;
+  return this.http.put(url, todo, { headers: this.headers }).pipe(
     catchError(this.errorMgmt)
   );
 }

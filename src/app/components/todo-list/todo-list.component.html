@@ -1,21 +1,30 @@
+<div class="todo-content">
 <mat-list>
     <span *ngIf="(Todo.length == 0)">
         <h3 mat-subheader class="alert alert-primary">No todo found</h3>
     </span>
-    <h3 mat-subheader>Today</h3>
-    <mat-list-item *ngFor="let todo of Todo">
-        <mat-icon mat-list-icon>watch_later</mat-icon>
-        <h4 mat-line hidden>{{todo.id}}</h4>
-        <input class="toggle" type="checkbox" (click)="toggleTodoComplete(todo)" [checked]="todo.complete">
-        <p mat-line> {{todo.title}} </p>
-        <span style="position:relative; right: 15x">
-            <a href="#" (click)="openEditDialog(todo.id)">
-                <mat-icon mat-list-icon>edit</mat-icon>
-            </a>
-            <a href="#" (click)="deleteItem(todo.id)">
-            <mat-icon mat-list-icon>delete</mat-icon>
-         </a>
-      </span>
-        <mat-divider></mat-divider>
-    </mat-list-item>
+      <ul class="todo-list">
+        <li *ngFor="let todo of Todo" [class.completed]= "todo.completed === true" >
+          <div class="todo-row">
+              <a class="todo-completed" (click)="toggleCompleted(todo)">
+                <i class="material-icons toggle-completed-checkbox"></i>
+              </a>
+              <span class="todo-title">
+                {{todo.title}}
+              </span>
+              <span class="todo-actions">
+                <a (click)="openDetailDialog(todo.id)">
+                  <i class="material-icons dehaze">dehaze</i>
+                </a>
+                  <a (click)="openEditDialog(todo.id)">
+                    <i class="material-icons edit">edit</i>
+                  </a>
+                  <a (click)="deleteTodo(todo.id)">
+                    <i class="material-icons delete">delete</i>
+                  </a>
+              </span>
+          </div>
+        </li>
+      </ul>
 </mat-list>
+</div>

@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Todo Details</h2>
+<mat-dialog-content>
+  <div class="todo-row">
+    <mat-label>Task: </mat-label>
+    <span>
+      {{todoData.title}}
+    </span>
+  </div>
+  <div class="todo-row">
+    <mat-label>Completed: </mat-label>
+    <span class="todo-title">
+      {{todoData.completed}}
+    </span>
+  </div>
+  <div class="todo-row">
+    <mat-label>Created On: </mat-label>
+    <span class="todo-title">
+      {{todoData.createdOn | date :'short'}}
+    </span>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onOkay()">Ok</button>
+</mat-dialog-actions>
+

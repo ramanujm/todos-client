@@ -5,6 +5,7 @@ import { TodoService } from 'src/app/service/todo.service';
 import { MatDialogConfig, MatDialog } from '@angular/material';
 import { Todo } from 'src/app/core/todo';
 import { EditTodoComponent } from '../edit-todo/edit-todo.component';
+import { DetailTodoComponent } from '../detail-todo/detail-todo.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -43,7 +44,27 @@ export class TodoListComponent implements OnInit {
           const dialogRef = this.dialog.open(EditTodoComponent, dialogConfig);
 
           dialogRef.afterClosed().subscribe(result => {
-            console.log('The dialog was closed');
+            // console.log('The dialog was closed');
+          });
+        },
+        (error: any) => console.log(error),
+        () => console.log('complete')
+      );
+}
+
+// Open Detail Component dialog.
+
+openDetailDialog(_id) : void {
+  this.todoService.getTodo(_id)
+      .subscribe(
+        (resp: Todo) => {
+          const dialogConfig = new MatDialogConfig();
+          dialogConfig.width = '500px';
+          dialogConfig.data = resp;
+          const dialogRef = this.dialog.open(DetailTodoComponent, dialogConfig);
+
+          dialogRef.afterClosed().subscribe(result => {
+            // console.log('The dialog was closed');
           });
         },
         (error: any) => console.log(error),
@@ -52,11 +73,9 @@ export class TodoListComponent implements OnInit {
 }
 
 // Delete Todo
-deleteTodo(todo, index) {
+deleteTodo(todoId) {
   if (window.confirm('Are you sure to delete the task?')) {
-    this.todoService.deleteTodo(todo.id).subscribe((data) => {
-      this.Todo.splice(index, 1);
-      // console.log('removeTodo...', data);
+    this.todoService.deleteTodo(todoId).subscribe((data) => {
       this.reloadAllTodos();
     },
     error => console.log(error));
@@ -65,13 +84,14 @@ deleteTodo(todo, index) {
 }
 
 // Toggle todo complete
-toggleTodoComplete(todo: Todo) {
-  console.log('I am here', todo.id);
+toggleCompleted(todo: Todo) {
   // tslint:disable-next-line:prefer-const
-  let updatedTodo = this.todoService.updateTodo(todo.id, {
-    complete: !todo.complete
-  });
-  return updatedTodo;
+  todo.completed = !todo.completed;
+  this.todoService.updateTodo(todo)
+  .subscribe(
+    (data: Todo) => location.reload(),
+    (error) => console.log(error)
+  );
 }
 
 // Error handling
